@@ -1,0 +1,15 @@
+Rscript -e '
+library(data.table);
+cat("正在读取文件 R21_scent_result.txt...\n");
+dt <- fread("R21_scent_result.txt");
+
+cat("正在计算 FDR 并进行过滤...\n");
+# 基于 boot_basic_p 计算全局 FDR
+dt[, FDR := p.adjust(boot_basic_p, method="BH")];
+
+# 过滤标准: FDR < 0.2 且 正向调控(beta > 0)
+res <- dt[FDR < 0.2 & beta > 0];
+
+# 导出结果
+fwrite(res, "R21_scent_FDR20_Filtered.txt", sep="\t", quote=FALSE);
+cat("过滤完毕！一共保留了", nrow(res), "个 FDR < 0.2 的增强子-靶基因对，已保存为 R21_scent_FDR20_Filtered.txt\n")
