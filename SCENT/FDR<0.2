@@ -13,3 +13,4 @@ res <- dt[FDR < 0.2 & beta > 0];
 # 导出结果
 fwrite(res, "R21_scent_FDR20_Filtered.txt", sep="\t", quote=FALSE);
 cat("过滤完毕！一共保留了", nrow(res), "个 FDR < 0.2 的增强子-靶基因对，已保存为 R21_scent_FDR20_Filtered.txt\n")
+'
