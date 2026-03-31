@@ -78,7 +78,7 @@ results <- run_pipeline(
 results <- run_pipeline(
   bam_files         = list.files("bam_dir", pattern = "\\.bam$", full.names = TRUE),
   atac_peaks        = "ATAC_peaks.narrowPeak",
-  genome            = "hg38",
+  genome            = "hg38",#可选"mm10","mm39","hg19","hg38",默认为mm10
   annotate          = TRUE,
   filter_intergenic = TRUE,
   output_dir        = "schafr_output"
@@ -91,8 +91,8 @@ results <- run_pipeline(
 results <- run_pipeline(
   bam_files    = c("sample.bam"),
   atac_peaks   = "peaks.narrowPeak",
-  tso_sequence = "AAGCAGTGGTATCAACGCAGAGT",
-  tso_start    = 1,
+  tso_sequence = "your_tso",
+  tso_start    = 1,#默认为tso_sequence = “CTAACGGG”, tso_start = 25, tso_end= 32
   tso_end      = 23,
   max_mismatch = 3,
   output_dir   = "output"
