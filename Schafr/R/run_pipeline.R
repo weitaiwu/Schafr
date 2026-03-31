@@ -13,8 +13,10 @@
 #' @param annotate Logical; run ChIPseeker annotation? Default: FALSE.
 #' @param filter_intergenic Logical; if annotating, filter to Distal Intergenic
 #'   only? Default: FALSE.
-#' @param txdb TxDb object for annotation. Default: NULL (uses mm10).
-#' @param anno_db Annotation DB. Default: "org.Mm.eg.db".
+#' @param genome Genome identifier: "mm10", "mm39", "hg19", "hg38".
+#'   Default: "mm10". Ignored if txdb and anno_db are both provided.
+#' @param txdb TxDb object. If NULL, auto-resolved from \code{genome}.
+#' @param anno_db Annotation DB. If NULL, auto-resolved from \code{genome}.
 #' @param output_dir Optional directory to write intermediate and final files.
 #'
 #' @return A named list, one element per BAM file, each containing:
@@ -47,8 +49,9 @@ run_pipeline <- function(bam_files,
                          min_density_ratio = 2,
                          annotate = FALSE,
                          filter_intergenic = FALSE,
+                         genome = "mm10",
                          txdb = NULL,
-                         anno_db = "org.Mm.eg.db",
+                         anno_db = NULL,
                          output_dir = NULL) {
 
   stopifnot(length(bam_files) > 0)
@@ -110,6 +113,7 @@ run_pipeline <- function(bam_files,
       message("\n>> Bonus: ChIPseeker annotation ...")
       res$clusters_annotated <- annotate_intergenic(
         res$clusters_overlap,
+        genome             = genome,
         txdb               = txdb,
         anno_db            = anno_db,
         filter_intergenic  = filter_intergenic
